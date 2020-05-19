@@ -1,5 +1,7 @@
 const csv = require('csv-parser')
 const fs = require('fs')
+const stripBomStream = require('strip-bom-stream');
+
 //const results = [];
 const files = ['federal taxpayers','federal taxes', 'federal taxable income'];
 
@@ -23,11 +25,14 @@ Promise.all(results).then((values) => {
 async function promiseGetData(file) {
   var promiseFcn = function(resolve,reject) {
     const file_data = [];
+    var file_headers = [];
     fs.createReadStream('src/assets/' + file + '.csv')
+    .pipe(stripBomStream())
     .pipe(csv())
     .on('data', (data) => file_data.push(data))
+    .on('headers', (headers) => { file_headers = headers})
     .on('end', () => {
-      resolve({'file': file, 'data': file_data});
+      resolve({'file': file, 'data': file_data, 'headers': file_headers});
     })
   }
   return new Promise(promiseFcn);
