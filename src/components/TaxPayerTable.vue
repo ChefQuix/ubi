@@ -1,46 +1,19 @@
 <template>
 	<div>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>{{ $t('location') }}</th>
-					<th v-for="(bracket,index) in getBrackets" :key="index">{{ bracket }}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="(area, area_index) in getAreas" :key="area_index">
-					<th>{{ area }}</th>
-					<td v-for="(taxpayers,yndex) in getTaxPayers.data[area_index].brackets" :key="yndex">
-						{{ formatNumber(taxpayers) }}
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<DataTable :Table="getTaxPayers" type="people"></DataTable>
 	</div>
 </template>
 
 <script>
-	import { mapGetters } from 'vuex'
+	import DataTable from '@/components/DataTable'
+    import { mapGetters } from 'vuex'
 
 	export default {
-		created() {
-		},
-
-		methods: {
-			formatCurrency(value) {
-				return new Intl.NumberFormat(this.$i18n.locale, { style: 'currency', currency: 'CAD' }).format(value);
-			},
-
-			formatNumber(value) {
-				return new Intl.NumberFormat(this.$i18n.locale).format(value);
-			}
-		},
+		components: { DataTable },
 
 		computed: {
 			...mapGetters([
-				'getAreas',
-				'getBrackets',
-				'getTaxPayers',
+				'getTaxPayers'
 			])
 		}
 	}
