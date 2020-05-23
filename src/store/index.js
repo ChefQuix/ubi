@@ -7,15 +7,31 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 	state: {
 		TaxData: CRAData,
+		taxExemptAmount: 18500,
+		UBIAmount: 18500,
 	},
 
 	mutations: {
+		setTaxExemptAmount (state,value) {
+			state.taxExemptAmount = value;
+		},
+		setUBIAmount (state,value)  {
+			state.UBIAmount = value;
+		}
 	},
 
 	actions: {
 	},
 
 	getters: {
+		UBIAmount: (state) => {
+			return state.UBIAmount;
+		},
+
+		taxExemptAmount: (state) => {
+			return state.taxExemptAmount;
+		},
+
 		getAreas: (state,getters) => {
 			return getters.getTaxPayers.data.map(obj => obj.area);
 		},
