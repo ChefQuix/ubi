@@ -16,6 +16,14 @@ export default new Vuex.Store({
 	},
 
 	getters: {
+		getAreas: (state,getters) => {
+			return getters.getTaxPayers.data.map(obj => obj.area);
+		},
+		
+		getBrackets: (state, getters) => {
+			return getters.getTaxPayers.headers.slice(1,-1);
+		},
+
 		getTaxPayers: (state,getters) => {
 			return getters.formatTable.filter(table => table.file === "federal taxpayers")[0];
 		},
@@ -53,5 +61,4 @@ export default new Vuex.Store({
 
 		},
 	}
-
 })
